@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>Kijiji Maps</title>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			var infowindow;
+			var bounds;
+
+			function initMap() {
+				var map = new google.maps.Map(document.getElementById('map'), {
+					center: new google.maps.LatLng(<%=lat%>, <%=lon%>),
+					zoom: <%=zoom%>,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				});
+				infowindow =  new google.maps.InfoWindow({
+	  			    content: ''
+	  			});
+	  			bounds = new google.maps.LatLngBounds();
+				setMarkers(map);
+			  }
+
+			if (typeof <%- JSON.stringify(beaches) %> !== undefined){
+				var beaches =  <%- beaches %>
+			}
+			console.log(beaches);
+
+			function setMarkers(map) {
+
+				for (var i = 0; i < beaches.length; i++) {
+					var beach = beaches[i];
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(beach[2], beach[3]),
+						map: map,
+						title: beach[0],
+						// zIndex: beach[3]
+					});
+					bounds.extend(marker.position);
+					bindInfoWindow(marker, map, infowindow, '<h3>'+beach[5]+'</h3><a href="'+beach[4]+'" target="_blank">Voir sur Kijiji</a><br>'+beach[0]+'<br>'+beach[1]);
+				}
+
+			map.fitBounds(bounds);
+			}
+
+
+
+			var bindInfoWindow = function(marker, map, infowindow, html) {
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.setContent(html);
+					infowindow.open(map, marker);
+				});
+			}
+
+		</script>
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+		</script>
+	</head>
+	<body>
+		<form action="/add" method="post" accept-charset="utf-8">
+			<label for="url">URL Kijiji: </label>
+			<input type="text" name="url" id="url">
+			<input type="submit" value="Send"/>
+		</form>
+		<form action="/refresh" method="post" accept-charset="utf-8">
+			<input id="loadButton" value="Reload" type="submit" type="button">
+		</form>
+		<div id="map" style="width:900px;height:500px;"></div>
+	</body>
+</html>

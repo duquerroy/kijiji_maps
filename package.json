@@ -1,0 +1,24 @@
+{
+  "name": "kijiji",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bson": "^0.4.23",
+    "cheerio": "^0.22.0",
+    "ejs": "^2.5.5",
+    "express": "^4.13.4",
+    "mongodb": "^1.4",
+    "mongoskin": "1.3.20",
+    "monk": "^1.0.1",
+    "node-geocoder": "^3.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

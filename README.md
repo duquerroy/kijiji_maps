@@ -4,6 +4,8 @@ The Kijiji site does not allow ads to appear on a map. When looking for an apart
 Just do a search on the site then copy paste the url.
 The ads already scaped are put in a database mongodb not to make too much request on the server
 
+Run mongodb
+
 ```
 npm install
 node server.js

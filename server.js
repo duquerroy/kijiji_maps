@@ -49,17 +49,19 @@ var test_next = function(req, res, next){
 						var $ = cheerio.load(html1, {
 							normalizeWhitespace: true,
 						});
-						var ad = $('.ad-attributes > tr:nth-child(3) > td:nth-child(2)').text();
-						// console.log('ad =>',ad);
+						var ad = $('h1').text();
+						console.log('ad =>',ad);
 						var url_page1 = response.request.uri.href;
-						var price     = $('[itemprop="price"]').text();
+						var price     = $('[class^="currentPrice"]').text();
 						var title_ad  = $('h1').text();
 						var latitude  = $('meta[property="og:latitude"]').attr('content')*1;
 						var longitude = $('meta[property="og:longitude"]').attr('content')*1;
 						title_ad      = title_ad.replace(/\"/g,'');
 						title_ad      = title_ad.replace(/\\/g,'');
+						title_ad      = title_ad.replace(/é/g,'e');
 						price         = price.replace(/\"/g,'');
 						ad            = ad.replace(/\"/g,'');
+						ad            = ad.replace(/\\/g,'');
 						// console.log('AD =>', ad);
 						if (ad.length>5){
 							ad = '{"address":"'+ad.replace('Afficher la carte','')+'","price":"'+price+'","url":"'+url_page1+'","title_ad":"'+title_ad+'","latitude":'+latitude+',"longitude":'+longitude+'}';
@@ -72,7 +74,7 @@ var test_next = function(req, res, next){
 						if ("" !== ad){
 							address[index_site] = ad;
 							ad = JSON.parse(ad);
-					    	
+
 									beaches.push([ad.address, ad.price, ad.latitude, ad.longitude, ad.url, ad.title_ad]);
 
 									// Submit to the DB
